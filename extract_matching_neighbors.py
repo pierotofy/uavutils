@@ -1,6 +1,6 @@
 import argparse, os, glob, json
 
-from opensfm import exif
+from common import get_images_list, get_exifs
 from opensfm.match_features import match_candidates_from_metadata
 
 parser = argparse.ArgumentParser(description='Converts a set of images with embedded EXIF GPS data into a list of matching neighbors')
@@ -13,13 +13,7 @@ parser.add_argument('--format', metavar="<string>", default="plain", help='Outpu
 
 args = parser.parse_args()
 
-images_list = []
-for image in args.images:
-	if os.path.isdir(image):
-		for ext in ["JPG", "JPEG", "jpg", "jpeg"]:
-			images_list += glob.glob(os.path.join(image, "*.{}".format(ext)))
-	elif os.path.isfile(image):
-		images_list += [image]
+images_list = get_images_list(args.images)
 
 class Object(object):
     pass
@@ -30,9 +24,7 @@ data.config = {
 	'matching_time_neighbors': args.matching_time_neighbors,
 	'matching_order_neighbors': args.matching_order_neighbors
 }
-exifs = {}
-for image_path in images_list:
-	exifs[image_path] = exif.extract_exif_from_file(open(image_path, 'rb'))
+exifs = get_exifs(images_list)
 
 matches = match_candidates_from_metadata(images_list, exifs, data)
 if args.format == 'micmac':
