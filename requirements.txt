@@ -1,0 +1,15 @@
+appdirs==1.4.3
+decorator==4.0.11
+ExifRead==2.1.2
+gpxpy==1.1.2
+networkx==1.11
+numpy==1.12.0
+packaging==16.8
+py==1.4.32
+pyparsing==2.2.0
+pyproj==1.9.5.1
+pytest==3.0.7
+python-dateutil==2.6.0
+PyYAML==3.12
+six==1.10.0
+xmltodict==0.10.2
